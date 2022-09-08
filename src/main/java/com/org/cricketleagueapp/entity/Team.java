@@ -1,6 +1,7 @@
 package com.org.cricketleagueapp.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -28,7 +29,7 @@ public class Team {
 	private Match matches;
 	
 	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Player> players;
+	private Set<Player> players = new HashSet<Player>();
 	
 	@OneToOne
 	private Owner owner;
@@ -60,11 +61,12 @@ public class Team {
 		this.matches = matches;
 	}
 
-	public List<Player> getPlayers() {
+	
+	public Set<Player> getPlayers() {
 		return players;
 	}
 
-	public void setPlayers(List<Player> players) {
+	public void setPlayers(Set<Player> players) {
 		this.players = players;
 	}
 

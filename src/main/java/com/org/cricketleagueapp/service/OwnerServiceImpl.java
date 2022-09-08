@@ -1,6 +1,7 @@
 package com.org.cricketleagueapp.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class OwnerServiceImpl implements IOwnerService{
 	public double getTotalSalary(int ownerId) {
 		Owner owner = getOwner(ownerId);
 		Team team = owner.getTeam();
-		List<Player> players = team.getPlayers();
+		Set<Player> players = team.getPlayers();
 		return players.stream().mapToDouble(p -> p.getSalary()).sum();
 	}
 

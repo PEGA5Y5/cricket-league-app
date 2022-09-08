@@ -1,6 +1,7 @@
 package com.org.cricketleagueapp.service;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +47,13 @@ public class TeamServiceImpl implements ITeamService{
 	}
 
 	@Override
-	public List<Player> getAllPlayers(int teamId) {
+	public Set<Player> getAllPlayers(int teamId) {
 		return getTeam(teamId).getPlayers();
 	}
 
 	@Override
 	public Player getPlayer(int teamId, int playerId) {
-		List<Player> players = getAllPlayers(teamId);
+		Set<Player> players = getAllPlayers(teamId);
 		return players.stream().filter(p -> p.getPlayerId() == playerId).findAny().orElseThrow(() -> new TeamNotFoundException("Team with id " + teamId + "not found"));
 	}
 
