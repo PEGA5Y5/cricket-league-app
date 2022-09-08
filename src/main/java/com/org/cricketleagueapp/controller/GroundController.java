@@ -17,7 +17,7 @@ import com.org.cricketleagueapp.entity.Ground;
 import com.org.cricketleagueapp.entity.Match;
 import com.org.cricketleagueapp.service.IGroundService;
 
-@RequestMapping("/cla")
+@RequestMapping("/ground")
 @RestController
 public class GroundController {
 	@Autowired
