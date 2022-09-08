@@ -1,45 +1,86 @@
 package com.org.cricketleagueapp.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.org.cricketleagueapp.entity.Audience;
+import com.org.cricketleagueapp.entity.Ground;
+import com.org.cricketleagueapp.entity.Schedule;
+import com.org.cricketleagueapp.entity.Team;
+import com.org.cricketleagueapp.entity.Tournament;
+
+@Entity
+@Table(name="match")
 public class Match {
-
-	public long matchId;
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	private long matchId;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="team1")
 	private Team team1;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="team2")
 	private Team team2;
-
+	 
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="tournament")
 	private Tournament tournament;
-
+	
+	@Embedded
 	private Schedule schedule;
-
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name="ground")
 	private Ground ground;
-
-	private Audience audience;
-
-	public Match() {
-	}
-
-	public long getMatchId() {
-		return matchId;
-	}
-
-	public void setMatchId(long matchId) {
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="matchId", referencedColumnName = "matchId")
+	private Set<Audience> audience;
+	
+	public Match(long matchId, Team team1, Team team2, Tournament tournament, Schedule schedule, Ground ground,
+			Set<Audience> audience) {
+		super();
 		this.matchId = matchId;
-	}
-
-	public Team getTeam1() {
-		return team1;
-	}
-
-	public void setTeam1(Team team1) {
 		this.team1 = team1;
-	}
-
-	public Team getTeam2() {
-		return team2;
-	}
-
-	public void setTeam2(Team team2) {
 		this.team2 = team2;
+		this.tournament = tournament;
+		this.schedule = schedule;
+		this.ground = ground;
+		this.audience = audience;
 	}
+
+
+	public Set<Audience> getAudience() {
+		return audience;
+	}
+
+
+	public void setAudience(Set<Audience> audience) {
+		this.audience = audience;
+	}
+
+	public Ground getGround() {
+		return ground;
+	}
+
+
+	public void setGround(Ground ground) {
+		this.ground = ground;
+	}
+
 
 	public Schedule getSchedule() {
 		return schedule;
@@ -48,13 +89,9 @@ public class Match {
 	public void setSchedule(Schedule schedule) {
 		this.schedule = schedule;
 	}
-
-	public Ground getGround() {
-		return ground;
-	}
-
-	public void setGround(Ground ground) {
-		this.ground = ground;
+	
+	public Team getTeam2() {
+		return team2;
 	}
 
 	public Tournament getTournament() {
@@ -65,12 +102,39 @@ public class Match {
 		this.tournament = tournament;
 	}
 
-	public Audience getAudience() {
-		return audience;
+	public void setTeam2(Team team2) {
+		this.team2 = team2;
 	}
 
-	public void setAudience(Audience audience) {
-		this.audience = audience;
+	public Team getTeam1() {
+		return team1;
 	}
 
+	public void setTeam1(Team team1) {
+		this.team1 = team1;
+	}
+
+	public Match(long matchId, Team team1) {
+		super();
+		this.matchId = matchId;
+		this.team1 = team1;
+	}
+
+	public Match(long matchId) {
+		super();
+		this.matchId = matchId;
+	}
+
+	public long getMatchId() {
+		return matchId;
+	}
+
+	public void setMatchId(long matchId) {
+		this.matchId = matchId;
+	}
+
+	public Match() {
+		super();
+	}
+	
 }
