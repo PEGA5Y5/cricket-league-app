@@ -14,11 +14,11 @@ import com.org.cricketleagueapp.repository.GroundRepository;
 import com.org.cricketleagueapp.repository.MatchRepository;
 
 @Service
-public class IGroundServiceImp implements IGroundService{
+public class GroundServiceImp implements IGroundService{
 	private GroundRepository groundRepository;
 	@Autowired
 	MatchRepository matchRepository;
-	   public IGroundServiceImp(GroundRepository groundRepository) {
+	   public GroundServiceImp(GroundRepository groundRepository) {
 			super();
 			this.groundRepository = groundRepository;
 		}
