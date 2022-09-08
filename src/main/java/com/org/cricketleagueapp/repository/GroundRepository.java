@@ -13,7 +13,7 @@ public interface GroundRepository extends JpaRepository<Ground, Integer> {
 
 	public List<Match> getAllmatchesGround(int groungId);
 
-	public Match getmatche(int groungId, int matchId);
+//	public Match getmatch(int groungId, int matchId);
 
 	public Ground insertGround(Ground ground);
 
