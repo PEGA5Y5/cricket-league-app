@@ -16,13 +16,13 @@ public interface IOwnerService {
 
 	public Owner insertOwner(Owner owner);
 
-	public Owner updateOwner(Owner owner);
+	public Owner updateOwner(Owner owner, int ownerId);
 
-	public Team getTeam();
+	public Team getTeam(int ownerId);
 
-	public double paySalary(Player player, double salary);
+	public double paySalary(Player player, double salary, int ownerId);
 
-	public double getBudget();
+	public double getBudget(int ownerId);
 
-	public double getTotalSalary(List<Player> player);
+	public double getTotalSalary(int ownerId);
 }
