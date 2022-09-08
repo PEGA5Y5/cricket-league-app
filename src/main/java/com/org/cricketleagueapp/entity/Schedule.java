@@ -5,15 +5,39 @@ import java.time.LocalTime;
 
 import javax.persistence.Embeddable;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Embeddable
 public class Schedule {
+	
+	
+	private LocalDate matchDate = LocalDate.now();
+	private LocalTime startTime = LocalTime.of(8, 30, 00);
+	private LocalTime endTime = LocalTime.of(10, 30, 00);
 
-	private LocalDate matchDate;
-	private LocalTime startTime;
-	private LocalTime endTime;
 
 	public Schedule() {
-		// TODO Auto-generated constructor stub
+		super();
+	}
+
+	public Schedule(LocalDate matchDate, LocalTime startTime, LocalTime endTime) {
+		super();
+		this.matchDate = matchDate;
+		this.startTime = startTime;
+		this.endTime = endTime;
 	}
 
 	public LocalDate getMatchDate() {
