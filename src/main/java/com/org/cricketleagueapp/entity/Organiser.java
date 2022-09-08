@@ -1,6 +1,5 @@
 package com.org.cricketleagueapp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -10,27 +9,54 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="organiser")
 public class Organiser {
 	
 	@Id
+	@NotNull(message="organiser id cannot be null")
 	@Column(name="organiser_id")
 	private int organiserId;
+	
+	@NotNull(message="organiser name cannot be null")
 	@Column(name="organiser_name")
 	private String organiserName;
+	
+	@Email(message="Email should be valid")
 	@Column(name="email")
 	private String email;
+	
 	@Column(name="phone")
 	private long phone;
+	
 	@Column(name="payment")
 	private double payment;
+	
 	@Column(name="budget")
 	private double budget;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organiser")
+	@JsonIgnore
 	private List<Tournament> tournaments;
+
+	public Organiser(@NotNull(message = "organiser id cannot be null") int organiserId,
+			@NotNull(message = "organiser name cannot be null") String organiserName,
+			@Email(message = "Email should be valid") String email, long phone, double payment, double budget,
+			List<Tournament> tournaments) {
+		super();
+		this.organiserId = organiserId;
+		this.organiserName = organiserName;
+		this.email = email;
+		this.phone = phone;
+		this.payment = payment;
+		this.budget = budget;
+		this.tournaments = tournaments;
+	}
 
 	public Organiser() {
 	}
@@ -88,13 +114,7 @@ public class Organiser {
 	}
 
 	public void setTournaments(List<Tournament> list) {
-		if(this.tournaments.isEmpty()) {						
-			this.tournaments = new ArrayList<>();
-			this.tournaments.addAll(list);								
-		}
-		else {
-			this.tournaments.addAll(list);
-		}
+		this.tournaments = list;
 	}
 
 }

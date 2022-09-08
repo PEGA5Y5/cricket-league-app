@@ -21,7 +21,7 @@ public interface ITournamentService {
 
 	public List<Match> getAllMatches(int tournamentId);
 
-	public Match getMatch(int tournamentId, int matchId);
+	public Match getMatch(int tournamentId, long matchId);
 
 	public Tournament getTournament(Match match);
 }

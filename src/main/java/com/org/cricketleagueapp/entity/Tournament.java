@@ -1,6 +1,5 @@
 package com.org.cricketleagueapp.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,26 +10,46 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
 @Table(name="tournament")
 public class Tournament {
 	@Id
+	@NotNull(message="tournament id cannot be null")
 	@Column(name="tournament_id")
 	private int tournamentId;
+	
+	@NotNull(message="tournament name cannot be null")
 	@Column(name="tournament_name")
 	private String tournamentName;
+	
 	@Column(name="prize_money")
 	private double prizeMoney;
 
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JsonIgnore
 	private Organiser organiser;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "tournament")
+	@JsonIgnore
 	private List<Match> matches;
 
 	public Tournament() {
+	}
+
+	public Tournament(@NotNull(message = "tournament id cannot be null") int tournamentId,
+			@NotNull(message = "tournament name cannot be null") String tournamentName, double prizeMoney,
+			Organiser organiser, List<Match> matches) {
+		super();
+		this.tournamentId = tournamentId;
+		this.tournamentName = tournamentName;
+		this.prizeMoney = prizeMoney;
+		this.organiser = organiser;
+		this.matches = matches;
 	}
 
 	public int getTournamentId() {
@@ -70,12 +89,6 @@ public class Tournament {
 	}
 
 	public void setMatches(List<Match> matches) {
-		if(this.matches.isEmpty()) {
-			this.matches = new ArrayList<>();
-			this.matches.addAll(matches);
-		}
-		else {
-			this.matches.addAll(matches);
-		}
+		this.matches = matches;
 	}
 }
