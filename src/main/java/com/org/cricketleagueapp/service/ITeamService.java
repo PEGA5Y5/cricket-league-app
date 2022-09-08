@@ -15,14 +15,15 @@ public interface ITeamService {
 
 	public Team insertTeam(Team team);
 
-	public Team updateTeam(Team team);
+	public Team updateTeam(Team team, int teamId);
 
 	public Team deleteTeam(int teamId);
 
-	public List<Player> getAllPlayers();
+	public List<Player> getAllPlayers(int teamId);
 
 	public Player getPlayer(int teamId, int playerId);
 
-	public Team getTeam(Player player);
+	//Repeated in Player Service
+	//public Team getTeam(Player player);
 
 }

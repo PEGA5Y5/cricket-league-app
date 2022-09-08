@@ -15,15 +15,15 @@ public interface IPlayerService {
 
 	public Player insertPlayer(Player player);
 
-	public Player updatePlayer(Player player);
+	public Player updatePlayer(Player player, int playerId);
 
 	public Player deletePlayer(int playerId);
 
-	public Skill getSkill();
+	public Skill getSkill(int playerId);
 
-	public Team getTeam();
+	public Team getTeam(int playerId);
 
-	public double getSalary();
+	public double getSalary(int playerId);
 
-	public double getSalary(int tournamentId);
+	public double getSalary(int tournamentId, int playerId);
 }
