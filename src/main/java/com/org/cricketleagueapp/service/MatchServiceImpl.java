@@ -26,8 +26,8 @@ public class MatchServiceImpl implements IMatchService{
 	@Autowired
 	private TeamServiceImpl teamServiceImpl;
 	
-	@Autowired
-	private TournamentServiceImpl tournamentServiceImpl;
+//	@Autowired
+//	private TournamentServiceImpl tournamentServiceImpl;
 	
 	@Autowired
 	private AudienceServiceImpl audienceServiceImpl;
@@ -67,11 +67,11 @@ public class MatchServiceImpl implements IMatchService{
 		return map;
 	}
 
-	@Override
-	public Tournament getTournament(long matchId) {
-		Match matchTemp = matchRepository.findById(matchId).orElseThrow(()-> new MatchNotFoundException("Match Not Found for id "+matchId));
-		return tournamentServiceImpl.getTournament(matchTemp.getTournament().getTournamentId());
-	}
+//	@Override
+//	public Tournament getTournament(long matchId) {
+//		Match matchTemp = matchRepository.findById(matchId).orElseThrow(()-> new MatchNotFoundException("Match Not Found for id "+matchId));
+//		return tournamentServiceImpl.getTournament(matchTemp.getTournament().getTournamentId());
+//	}
 
 	@Override
 	public Set<Audience> getAllAudience(long matchId) {

@@ -1,6 +1,7 @@
 package com.org.cricketleagueapp.controller;
 
-import java.util.List;
+//import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -20,11 +21,11 @@ import com.org.cricketleagueapp.entity.Match;
 import com.org.cricketleagueapp.entity.MatchDummy;
 import com.org.cricketleagueapp.entity.Schedule;
 import com.org.cricketleagueapp.entity.Team;
-import com.org.cricketleagueapp.entity.Tournament;
+//import com.org.cricketleagueapp.entity.Tournament;
 import com.org.cricketleagueapp.service.IMatchService;
 import com.org.cricketleagueapp.service.ITeamService;
 import com.org.cricketleagueapp.service.ITournamentService;
-import com.org.cricketleagueapp.service.MatchServiceImpl;
+//import com.org.cricketleagueapp.service.MatchServiceImpl;
 
 @RestController
 @RequestMapping("/match")
@@ -75,10 +76,10 @@ public class MatchController {
 		return matchService.getTeams(id);
 	}
 	
-	@GetMapping("/tournament/{id}")
-	public ResponseEntity<Tournament> getTournament(@PathVariable long id){
-		return new ResponseEntity<Tournament>(matchService.getTournament(id),HttpStatus.OK);
-	}
+//	@GetMapping("/tournament/{id}")
+//	public ResponseEntity<Tournament> getTournament(@PathVariable long id){
+//		return new ResponseEntity<Tournament>(matchService.getTournament(id),HttpStatus.OK);
+//	}
 	
 	@GetMapping("/audience/{id}")
 	public Set<Audience> getAllAudience(@PathVariable long id){
