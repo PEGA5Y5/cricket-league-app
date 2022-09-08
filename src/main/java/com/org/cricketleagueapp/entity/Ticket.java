@@ -1,14 +1,32 @@
 package com.org.cricketleagueapp.entity;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="ticket")
 public class Ticket {
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column
 	private int ticketId;
+    @Column(name="ticketName")
 	private String ticketName;
+    @Column(name="totalAmount")
 	private double totalAmount;
+    @Column(name="noOfSeats")
 	private int noOfSeats;
-
+    
+    @OneToOne(cascade=CascadeType.ALL)
 	private Match match;
-
+    
+	@OneToOne(cascade=CascadeType.ALL)
 	private Audience audience;
 
 	public Ticket() {
