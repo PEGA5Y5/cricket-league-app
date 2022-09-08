@@ -18,12 +18,12 @@ public interface IOrganiserService {
 
 	public Organiser updateOrganiser(Organiser organiser);
 
-	public List<Tournament> getTournaments();
+	public List<Tournament> getTournaments(int organiserId);
 
 	public Tournament getTournament(int tournamentId);
 
-	public double payPrizeMoney(Owner owner);
+	public double payPrizeMoney(Owner owner, int tournamentId);
 
-	public double getBudget();
+	public double getBudget(int organiserId);
 
 }

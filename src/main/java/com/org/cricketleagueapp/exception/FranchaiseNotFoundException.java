@@ -1,8 +1,7 @@
 package com.org.cricketleagueapp.exception;
 
-public class FranchaiseNotFoundException extends RuntimeException {
-
-	public FranchaiseNotFoundException() {
-		// TODO Auto-generated constructor stub
+public class FranchaiseNotFoundException extends RuntimeException{
+	public FranchaiseNotFoundException(String msg) {
+		super(msg);
 	}
 }

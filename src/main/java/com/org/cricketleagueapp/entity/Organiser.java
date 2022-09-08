@@ -1,18 +1,38 @@
 package com.org.cricketleagueapp.entity;
 
-public class Organiser {
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="organiser")
+public class Organiser {
+	
+	@Id
+	@Column(name="organiser_id")
 	private int organiserId;
+	@Column(name="organiser_name")
 	private String organiserName;
+	@Column(name="email")
 	private String email;
+	@Column(name="phone")
 	private long phone;
+	@Column(name="payment")
 	private double payment;
+	@Column(name="budget")
 	private double budget;
 
-	private Tournament tournaments;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organiser")
+	private List<Tournament> tournaments;
 
 	public Organiser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getOrganiserId() {
@@ -55,7 +75,7 @@ public class Organiser {
 		this.payment = payment;
 	}
 
-	public Tournament getTournaments() {
+	public List<Tournament> getTournaments() {
 		return tournaments;
 	}
 
@@ -67,8 +87,14 @@ public class Organiser {
 		this.budget = budget;
 	}
 
-	public void setTournaments(Tournament tournaments) {
-		this.tournaments = tournaments;
+	public void setTournaments(List<Tournament> list) {
+		if(this.tournaments.isEmpty()) {						
+			this.tournaments = new ArrayList<>();
+			this.tournaments.addAll(list);								
+		}
+		else {
+			this.tournaments.addAll(list);
+		}
 	}
 
 }

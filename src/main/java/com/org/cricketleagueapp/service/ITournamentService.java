@@ -19,7 +19,7 @@ public interface ITournamentService {
 
 	public Tournament deleteTournament(int tournamentId);
 
-	public List<Match> getAllMatches();
+	public List<Match> getAllMatches(int tournamentId);
 
 	public Match getMatch(int tournamentId, int matchId);
 
