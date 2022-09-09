@@ -4,12 +4,14 @@ import java.util.List;
 
 
 import com.org.cricketleagueapp.entity.Audience;
+import com.org.cricketleagueapp.entity.Ground;
 import com.org.cricketleagueapp.entity.Match;
 import com.org.cricketleagueapp.entity.Ticket;
 import com.org.cricketleagueapp.exception.AudienceNotFoundException;
 import com.org.cricketleagueapp.exception.MatchNotFoundException;
 import com.org.cricketleagueapp.exception.TicketNotFoundException;
 import com.org.cricketleagueapp.repository.AudienceRepository;
+import com.org.cricketleagueapp.repository.GroundRepository;
 import com.org.cricketleagueapp.repository.MatchRepository;
 import com.org.cricketleagueapp.repository.TicketRepository;
 
@@ -18,6 +20,7 @@ public class AudienceServiceImpl implements IAudienceService {
 	private AudienceRepository audienceRepository;
 	private MatchRepository matchRepository;
 	private TicketRepository ticketRepository;
+    
 	
 
 	public AudienceServiceImpl(AudienceRepository audienceRepository) {
@@ -32,9 +35,13 @@ public class AudienceServiceImpl implements IAudienceService {
 		
 	}
 
+	//TODO
 	@Override
 	public Audience insertAudience(Audience audience) {
 		// TODO Auto-generated method stub
+		Match match=audience.getMatches();
+		Ground ground=match.getGround();
+		//if(ground.getCapacity())
 		return audienceRepository.save(audience);
 	}
 
@@ -69,7 +76,13 @@ public class AudienceServiceImpl implements IAudienceService {
 	@Override
 	public double getPaidAmountForAllTickects() {
 		// TODO Auto-generated method stub
-		return audienceRepository.getPaidAmountForAllTickects();
+		List<Ticket> allTickets=audienceRepository.getAllTickets();
+		double amount=0.0;
+		for(Ticket t:allTickets) {
+			amount+=t.getTotalAmount();
+		}
+		
+		return amount;
 	}
 
 }

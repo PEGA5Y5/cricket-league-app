@@ -15,39 +15,36 @@ public class TicketServiceImpl implements ITicketService{
 	private TicketRepository ticketRepository;
 	
 	private AudienceRepository audienceRepository;
+	private MatchRepository matchRepository;
 
 	@Override
 	public Ticket getTicket(int ticketId) {
-		// TODO Auto-generated method stub
 		return ticketRepository.findById(ticketId).orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + ticketId));
 	}
 
 	@Override
 	public Ticket insertTicket(Ticket ticket) {
-		// TODO Auto-generated method stub
 		return ticketRepository.save(ticket);
 	}
 
 
 	@Override
 	public Ticket cancelTicket(int ticketId) {
-		// TODO Auto-generated method stub
-	    
 		
-		Ticket t=ticketRepository.findById(ticketId).orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + ticketId));
+	    Ticket t=ticketRepository.findById(ticketId).orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + ticketId));
 		ticketRepository.deleteById(ticketId);
 		return t;
 	}
 
 	@Override
-	public Match getMatch() {
-		// TODO Auto-generated method stub
-		return ticketRepository.getMatch();
+	public Match getMatch(int ticketId) {
+		Ticket t1=ticketRepository.findById(ticketId).orElseThrow(() -> new TicketNotFoundException("Ticket not found with id: " + ticketId));
+		
+		
 	}
 
 	@Override
 	public Audience getSchedule(int ticketId) {
-		// TODO Auto-generated method stub
 		return audienceRepository.findById(ticketId).orElseThrow(() -> new AudienceNotFoundException("Audience not found with id: " + ticketId));
 		
 	}
@@ -55,14 +52,15 @@ public class TicketServiceImpl implements ITicketService{
 	@Override
 	public double getBill() {
 		// TODO Auto-generated method stub
-		return ticketRepository.getBill();
+		
 		
 	}
 
 	@Override
 	public double calculateBill(int noOfSeats) {
 		// TODO Auto-generated method stub
-		return ticketRepository.calculateBill(noOfSeats);
+		
+		
 	}
 	
 

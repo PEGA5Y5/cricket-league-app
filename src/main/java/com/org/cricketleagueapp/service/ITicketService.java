@@ -12,12 +12,12 @@ public interface ITicketService {
 
 	public Ticket cancelTicket(int ticketId);
 
-	public Match getMatch();
-
 	public Audience getSchedule(int ticketId);
 
 	public double getBill();
 
 	public double calculateBill(int noOfSeats);
+
+	public Match getMatch(int ticketId);
 
 }
