@@ -32,10 +32,28 @@ public class TeamServiceImpl implements ITeamService{
 	}
 
 	@Override
-	public Team updateTeam(Team team, int teamId) {
-		getTeam(teamId);
-		team.setTeamId(teamId);
-		return insertTeam(team);
+	public Team updateTeam(Team team) {
+		int teamId = team.getTeamId();
+		Team oldTeam = getTeam(teamId);
+		Team newTeam = new Team();
+		newTeam.setTeamId(teamId);
+		if (team.getTeamName() != null) {
+			newTeam.setTeamName(team.getTeamName());
+		} else {
+			newTeam.setTeamName(oldTeam.getTeamName());
+		}
+		if (team.getMatches() != null) {
+			newTeam.setMatches(team.getMatches());
+		} else {
+			newTeam.setMatches(oldTeam.getMatches());
+		}
+		if (team.getPlayers() != null) {
+			newTeam.setPlayers(team.getPlayers());
+		} else {
+			newTeam.setPlayers(oldTeam.getPlayers());
+		}
+		teamRepository.save(newTeam);
+		return newTeam;
 	}
 
 	@Override

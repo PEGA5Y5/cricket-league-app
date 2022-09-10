@@ -34,10 +34,36 @@ public class PlayerServiceImpl implements IPlayerService {
 	}
 
 	@Override
-	public Player updatePlayer(Player player, int playerId) {
-		getPlayer(playerId);
-		player.setPlayerId(playerId);
-		return insertPlayer(player);
+	public Player updatePlayer(Player player) {
+		int playerId = player.getPlayerId();
+		Player oldPlayer = getPlayer(playerId);
+		Player savePlayer = new Player();
+		savePlayer.setPlayerId(playerId);
+		if(player.getPlayerName() != null) 
+		{
+			savePlayer.setPlayerName(player.getPlayerName());
+		}
+		else {
+			savePlayer.setPlayerName(oldPlayer.getPlayerName());
+		}	
+		if(player.getSalary() != 0) 
+			savePlayer.setSalary(player.getSalary());
+		else {
+			savePlayer.setSalary(oldPlayer.getSalary());
+		}
+		if(player.getSkill() != null)
+			savePlayer.setSkill(player.getSkill());
+		else {
+			savePlayer.setSkill(oldPlayer.getSkill());
+		}
+		if(player.getTeam() != null)
+			savePlayer.setTeam(player.getTeam());
+		else {
+			savePlayer.setTeam(oldPlayer.getTeam());
+		}
+		playerRepository.save(savePlayer);
+		return getPlayer(playerId);
+		
 	}
 
 	@Override
@@ -65,11 +91,11 @@ public class PlayerServiceImpl implements IPlayerService {
 		return player.getSalary();
 	}
 
-	@Override
-	public double getSalary(int tournamentId, int playerId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+//	@Override
+//	public double getSalary(int tournamentId, int playerId) {
+//		// TODO Auto-generated method stub
+//		return 0;
+//	}
 
 	
 

@@ -38,6 +38,14 @@ public class Player {
 	public Player() {
 	}
 
+	public Player(int playerId, String playerName, double salary, Skill skill, Team team) {
+		this.playerId = playerId;
+		this.playerName = playerName;
+		this.salary = salary;
+		this.skill = skill;
+		this.team = team;
+	}
+
 	public int getPlayerId() {
 		return playerId;
 	}

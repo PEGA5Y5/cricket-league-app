@@ -13,6 +13,7 @@ import com.org.cricketleagueapp.repository.OwnerRepository;
 
 @Service
 public class OwnerServiceImpl implements IOwnerService{
+	
 	@Autowired
 	private OwnerRepository ownerRepository;
 	
@@ -44,9 +45,9 @@ public class OwnerServiceImpl implements IOwnerService{
 	public double paySalary(Player player, double salary, int ownerId) {
 		Owner owner = getOwner(ownerId);
 		owner.setBudget(owner.getBudget() - salary);
-		updateOwner(owner, ownerId);
+		updateOwner(owner);
 		player.setSalary(player.getSalary() + salary);
-		playerServiceImpl.updatePlayer(player, player.getPlayerId());
+		playerServiceImpl.updatePlayer(player);
 		return salary;
 	}
 
@@ -65,10 +66,37 @@ public class OwnerServiceImpl implements IOwnerService{
 	}
 
 	@Override
-	public Owner updateOwner(Owner owner, int ownerId) {
-		getOwner(ownerId);
-		owner.setOwnerId(ownerId);
-		return insertOwner(owner);
+	public Owner updateOwner(Owner owner) {
+		int ownerId = owner.getOwnerId();
+		Owner oldOwner = getOwner(ownerId);
+		Owner newOwner = new Owner();
+		newOwner.setOwnerId(ownerId);
+		if(owner.getOwnerName() != null) {
+			newOwner.setOwnerName(owner.getOwnerName());
+		}
+		else {
+			newOwner.setOwnerName(oldOwner.getOwnerName());
+		}
+		if (owner.getBudget() != 0) {
+			newOwner.setBudget(owner.getBudget());
+		} else {
+			newOwner.setBudget(oldOwner.getBudget());
+		}
+		if(owner.getTeam() != null) {
+			newOwner.setTeam(owner.getTeam());
+		}
+		else {
+			newOwner.setTeam(oldOwner.getTeam());
+		}
+		ownerRepository.save(newOwner);
+		return getOwner(ownerId);
+	}
+
+	@Override
+	public Owner deleteOwner(int ownerId) {
+		Owner owner = getOwner(ownerId);
+		ownerRepository.deleteById(ownerId);
+		return owner;
 	}
 
 		

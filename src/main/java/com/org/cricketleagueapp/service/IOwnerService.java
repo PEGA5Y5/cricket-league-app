@@ -16,7 +16,9 @@ public interface IOwnerService {
 
 	public Owner insertOwner(Owner owner);
 
-	public Owner updateOwner(Owner owner, int ownerId);
+	public Owner updateOwner(Owner owner);
+	
+	public Owner deleteOwner(int ownerId);
 
 	public Team getTeam(int ownerId);
 

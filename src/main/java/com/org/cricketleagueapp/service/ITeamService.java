@@ -15,7 +15,7 @@ public interface ITeamService {
 
 	public Team insertTeam(Team team);
 
-	public Team updateTeam(Team team, int teamId);
+	public Team updateTeam(Team team);
 
 	public Team deleteTeam(int teamId);
 

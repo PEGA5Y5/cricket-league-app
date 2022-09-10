@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -24,14 +25,12 @@ public class Team {
 	@Column(nullable = false)
 	private String teamName;
 	
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Match matches;
 	
 	@OneToMany(mappedBy = "team", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Player> players;
 	
-	@OneToOne
-	private Owner owner;
 
 	public Team() {
 	}
@@ -68,12 +67,5 @@ public class Team {
 		this.players = players;
 	}
 
-	public Owner getOwner() {
-		return owner;
-	}
-
-	public void setOwner(Owner owner) {
-		this.owner = owner;
-	}
 
 }

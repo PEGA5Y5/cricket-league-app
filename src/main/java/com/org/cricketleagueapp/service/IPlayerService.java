@@ -15,7 +15,7 @@ public interface IPlayerService {
 
 	public Player insertPlayer(Player player);
 
-	public Player updatePlayer(Player player, int playerId);
+	public Player updatePlayer(Player player);
 
 	public Player deletePlayer(int playerId);
 
@@ -25,5 +25,4 @@ public interface IPlayerService {
 
 	public double getSalary(int playerId);
 
-	public double getSalary(int tournamentId, int playerId);
 }
