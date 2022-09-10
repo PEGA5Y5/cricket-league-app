@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.org.cricketleagueapp.entity.Match;
+import com.org.cricketleagueapp.entity.Team;
 import com.org.cricketleagueapp.entity.Tournament;
 import com.org.cricketleagueapp.service.ITournamentService;
 
@@ -65,6 +66,21 @@ public class TournamentController {
 	@GetMapping("/get-tournament")
 	public  ResponseEntity<Tournament> getTournament(@RequestBody Match match) {
 		return new ResponseEntity<Tournament>(tournamentService.getTournament(match),HttpStatus.FOUND);
+	}
+	
+	@PutMapping("/add-team-to-tournament/{tournament-id}/{team-id}")
+	public  ResponseEntity<Team> addTeamToTournament(@PathVariable("tournament-id") int tournamentId, @PathVariable("team-id") int teamId) {
+		return new ResponseEntity<Team>(tournamentService.addTeamToTournament(tournamentId, teamId),HttpStatus.CREATED);
+	}
+	
+	@GetMapping("/get-all-teams/{tournament-id}")
+	public  ResponseEntity<List<Team>> getTeams(@PathVariable("tournament-id") int tournamentId) {
+		return new ResponseEntity<List<Team>>(tournamentService.getTeams(tournamentId),HttpStatus.FOUND);
+	}
+	
+	@DeleteMapping("/delete-team-from-torunament/{tournament-id}/{team-id}")
+	public ResponseEntity<Team> deleteTeamFromTournament(@PathVariable("tournament-id") int tournamentId,  @PathVariable("team-id") int teamId) {
+		return new ResponseEntity<Team>(tournamentService.deleteTeamFromTournament(tournamentId, teamId),HttpStatus.OK);
 	}
 }
 

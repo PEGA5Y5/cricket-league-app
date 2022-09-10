@@ -34,26 +34,22 @@ public class Organiser {
 	@Column(name="phone")
 	private long phone;
 	
-	@Column(name="payment")
-	private double payment;
-	
 	@Column(name="budget")
 	private double budget;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organiser")
 	@JsonIgnore
 	private List<Tournament> tournaments;
-
+	
 	public Organiser(@NotNull(message = "organiser id cannot be null") int organiserId,
 			@NotNull(message = "organiser name cannot be null") String organiserName,
-			@Email(message = "Email should be valid") String email, long phone, double payment, double budget,
+			@Email(message = "Email should be valid") String email, long phone, double budget,
 			List<Tournament> tournaments) {
 		super();
 		this.organiserId = organiserId;
 		this.organiserName = organiserName;
 		this.email = email;
 		this.phone = phone;
-		this.payment = payment;
 		this.budget = budget;
 		this.tournaments = tournaments;
 	}
@@ -93,14 +89,7 @@ public class Organiser {
 		this.phone = phone;
 	}
 
-	public double getPayment() {
-		return payment;
-	}
-
-	public void setPayment(double payment) {
-		this.payment = payment;
-	}
-
+	
 	public List<Tournament> getTournaments() {
 		return tournaments;
 	}

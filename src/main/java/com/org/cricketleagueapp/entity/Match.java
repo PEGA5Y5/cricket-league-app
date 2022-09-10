@@ -61,7 +61,13 @@ public class Match {
 		this.ground = ground;
 		this.audience = audience;
 	}
-
+	
+	public Match(Team team1, Team team2, Tournament tournament, Ground ground) {
+		this.team1 = team1;
+		this.team2 = team2;
+		this.tournament = tournament;
+		this.ground = ground;
+	}
 
 	public Set<Audience> getAudience() {
 		return audience;

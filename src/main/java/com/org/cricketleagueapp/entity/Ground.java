@@ -15,24 +15,27 @@ import javax.persistence.Table;
 public class Ground {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-	private long groundId;
+	private int groundId;
 	@Column(name="groundname")
 	private String groundName;
 	@Column(name="capacity")
 	private int capacity;
+	@Column(name="ground_status")
+	private boolean groundStatus = true;			//true – ground can be booked
+													//false – ground already booked
 	@OneToOne(cascade=CascadeType.ALL)
 	private Match matches;
 	@Embedded
 	private Address address;
-
+	
 	public Ground() {
 	}
 
-	public long getGroundId() {
+	public int getGroundId() {
 		return groundId;
 	}
 
-	public void setGroundId(long groundId) {
+	public void setGroundId(int groundId) {
 		this.groundId = groundId;
 	}
 
@@ -67,5 +70,14 @@ public class Ground {
 	public void setMatches(Match matches) {
 		this.matches = matches;
 	}
+
+	public boolean isGroundStatus() {
+		return groundStatus;
+	}
+
+	public void setGroundStatus(boolean groundStatus) {
+		this.groundStatus = groundStatus;
+	}
+	
 
 }

@@ -1,16 +1,29 @@
 package com.org.cricketleagueapp.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.org.cricketleagueapp.entity.Ground;
+import com.org.cricketleagueapp.entity.Match;
 import com.org.cricketleagueapp.entity.Organiser;
 import com.org.cricketleagueapp.entity.Owner;
+import com.org.cricketleagueapp.entity.Schedule;
+import com.org.cricketleagueapp.entity.Team;
 import com.org.cricketleagueapp.entity.Tournament;
 import com.org.cricketleagueapp.exception.DuplicateDataException;
 import com.org.cricketleagueapp.exception.FranchaiseNotFoundException;
+import com.org.cricketleagueapp.exception.GroundNotFoundException;
+import com.org.cricketleagueapp.exception.MinimumTeamException;
 import com.org.cricketleagueapp.exception.OrganiserNotFoundException;
+import com.org.cricketleagueapp.exception.TournamentDateTimeNotFoundException;
 import com.org.cricketleagueapp.exception.TournamentNotFoundException;
+import com.org.cricketleagueapp.exception.TournamentPrizeMoneyNotSetException;
+import com.org.cricketleagueapp.repository.GroundRepository;
+import com.org.cricketleagueapp.repository.MatchRepository;
 import com.org.cricketleagueapp.repository.OrganiserRepository;
 import com.org.cricketleagueapp.repository.OwnerRepository;
 import com.org.cricketleagueapp.repository.TournamentRepository;
@@ -25,6 +38,13 @@ public class OrganiserServiceImpl implements IOrganiserService{
 	
 	@Autowired
 	OwnerRepository ownerRepository;
+	
+	@Autowired
+	GroundRepository groundRepository;
+	
+	@Autowired
+	MatchRepository matchRepository;
+	
 
 	@Override
 	public Organiser getOrganiser(int organiserId) {
@@ -54,12 +74,22 @@ public class OrganiserServiceImpl implements IOrganiserService{
 		int organiserId = organiser.getOrganiserId();
 		Organiser organiserTemp = organiserRepository.findById(organiserId).orElseThrow(() -> 						//through organiser object fetching the record by organiserId
 		new OrganiserNotFoundException("Organiser not found with name: " + organiser.getOrganiserName()));			//from the database
-		organiserTemp.setBudget(organiser.getBudget());																//updating the same object with new data			
-		organiserTemp.setEmail(organiser.getEmail());
-		organiserTemp.setOrganiserName(organiser.getOrganiserName());
-		organiserTemp.setPayment(organiser.getPayment());
-		organiserTemp.setPhone(organiser.getPhone());
-		organiserTemp.setTournaments(organiser.getTournaments());
+		
+		if(organiser.getBudget() != 0) {																			//updating the same object with new data			
+			organiserTemp.setBudget(organiser.getBudget());	
+		}
+		if(organiser.getEmail() != null) {
+			organiserTemp.setEmail(organiser.getEmail());
+		}
+		if(organiser.getOrganiserName() != null) {
+			organiserTemp.setOrganiserName(organiser.getOrganiserName());
+		}
+		if(organiser.getPhone() != 0) {
+			organiserTemp.setPhone(organiser.getPhone());
+		}
+		if(organiser.getTournaments() != null) {
+			organiserTemp.setTournaments(organiser.getTournaments());
+		}
 		return organiserRepository.save(organiserTemp);																//again saving the object in database
 	}
 
@@ -77,25 +107,61 @@ public class OrganiserServiceImpl implements IOrganiserService{
 	}																								//if found tournament object is returned
 
 	@Override
-	public double payPrizeMoney(Owner owner, int tournamentId) {
-		int ownerId = owner.getOwnerId();
-		Owner ownerTemp = ownerRepository.findById(ownerId).orElseThrow(() -> 						//fetching the owner and tournament record from the database
-		new FranchaiseNotFoundException("Owner not found with id: " + ownerId));
-		Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> 
-		new TournamentNotFoundException("Tournament not found with id: " + tournamentId));
-		Organiser organiser = tournament.getOrganiser();		
-		double prizeMoney = tournament.getPrizeMoney();												//fetching the tournament prize money from the tournament record
-		organiser.setPayment(organiser.getPayment() - prizeMoney);									//deducting the prize money from the organiser's payment field 
-		organiserRepository.save(organiser);
-		ownerTemp.setBudget(ownerTemp.getBudget() + prizeMoney);									//adding the prize money to the owner's budget
-		ownerRepository.save(ownerTemp);
-		return prizeMoney;
-	}
-
-	@Override
 	public double getBudget(int organiserId) {
 		Organiser organiser = organiserRepository.findById(organiserId).orElseThrow(() -> 			//returning the budget of the organiser
 		new OrganiserNotFoundException("Organiser not found with id: " + organiserId));
 		return organiser.getBudget();
+	}
+
+	@Override
+	public Tournament setTournamentDateTime(int tournamentId, LocalDate startDate, LocalTime startTime, LocalTime endTime) {
+		Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> 		//checking tournament record with tournamentId
+		new TournamentNotFoundException("Tournament not found with id: " + tournamentId));			//present in the database or not
+		
+		tournament.setStartDate(startDate);
+		tournament.setStartTime(startTime);
+		tournament.setEndTime(endTime);
+		
+		return tournamentRepository.save(tournament);
+	}
+
+	@Override
+	public Tournament setTournamentGround(int tournamentId, int groundId) {
+		Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> 		//checking tournament record with tournamentId
+		new TournamentNotFoundException("Tournament not found with id: " + tournamentId));			//present in the database or not
+		
+		if(groundId == -1) {
+			List<Ground> ground = groundRepository.findAll().stream().filter(temp -> temp.isGroundStatus()).toList();		//if groundId is not passed ground will be assigned
+			Random rand = new Random();																						//randomly from the list of available grounds
+	        int rand_int = rand.nextInt(ground.size()-1);																	//generating random index
+	        Ground tournamentGround = ground.get(rand_int);
+	        tournament.setGroundId(tournamentGround.getGroundId());
+	        tournamentGround.setGroundStatus(false);
+	        groundRepository.save(tournamentGround);
+	        return tournamentRepository.save(tournament);
+		}
+		else {
+			Ground ground = groundRepository.findById(groundId).orElseThrow(() -> 		//checking ground record with groundId
+			new GroundNotFoundException("Ground not found with id: " + groundId));		//present or not
+			ground.setGroundStatus(false);
+			tournament.setGroundId(ground.getGroundId());
+			groundRepository.save(ground);
+		    return tournamentRepository.save(tournament);
+		}
+	}
+	
+	@Override
+	public Tournament setTournamentGround(int tournamentId) {						//for random generating ground
+		return setTournamentGround(tournamentId, 0);
+	}
+
+	@Override
+	public Tournament setTournamentPrizeMoney(int tournamentId, double prizeMoney) {
+		Tournament tournament = tournamentRepository.findById(tournamentId).orElseThrow(() -> 		//checking tournament record with tournamentId
+		new TournamentNotFoundException("Tournament not found with id: " + tournamentId));			//present in the database or not
+		
+		tournament.setPrizeMoney(prizeMoney);
+		
+		return tournamentRepository.save(tournament);
 	}
 }

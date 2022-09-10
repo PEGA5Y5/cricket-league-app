@@ -1,11 +1,14 @@
 package com.org.cricketleagueapp.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.org.cricketleagueapp.entity.Match;
 import com.org.cricketleagueapp.entity.Organiser;
-import com.org.cricketleagueapp.entity.Owner;
+import com.org.cricketleagueapp.entity.Team;
 import com.org.cricketleagueapp.entity.Tournament;
 import com.org.cricketleagueapp.service.IOrganiserService;
+import com.org.cricketleagueapp.service.ITournamentService;
 
 @RestController
 @CrossOrigin("*")
@@ -26,6 +31,9 @@ public class OrganiserController {
 	
 	@Autowired
 	private IOrganiserService orgnaniserService;
+	
+	@Autowired
+	private ITournamentService tournamentService;
 	
 	@PostMapping("/add")
 	public ResponseEntity<Organiser> insertOrganiser(@RequestBody Organiser organiser) {
@@ -57,14 +65,55 @@ public class OrganiserController {
 		return new ResponseEntity<Tournament>(orgnaniserService.getTournament(tournamentId),HttpStatus.FOUND);
 	}
 	
-	@PutMapping("/pay-prize-money/{tournament-id}")
-	public ResponseEntity<Double> payPrizeMoney(@RequestBody Owner owner, @PathVariable("tournament-id") int tournamentId) {
-		return new ResponseEntity<Double>(orgnaniserService.payPrizeMoney(owner, tournamentId),HttpStatus.OK);
-	}
-	
 	@GetMapping("/get-budget/{organiser-id}")
 	public ResponseEntity<Double> getBudget(@PathVariable("organiser-id") int organiserId) {
 		return new ResponseEntity<Double>(orgnaniserService.getBudget(organiserId),HttpStatus.FOUND);
+	}
+	
+	@PutMapping("/set-tournament-date-time/{tournament-id}/{start-date}/{start-time}/{end-time}")
+	public ResponseEntity<Tournament> setTournamentDateTime(@PathVariable("tournament-id") int tournamentId, @PathVariable("start-date") LocalDate startDate,
+												@PathVariable("start-time") LocalTime startTime, @PathVariable("end-time") LocalTime endTime) {
+		return new ResponseEntity<Tournament>(orgnaniserService.setTournamentDateTime(tournamentId, startDate, startTime, endTime),HttpStatus.OK);
+	}
+	
+	@PutMapping("/set-tournament-ground/{tournament-id}/{ground-id}")
+	public  ResponseEntity<Tournament> setTournamentGround(@PathVariable("tournament-id") int tournamentId, @PathVariable("team-id") int groundId) {
+		return new ResponseEntity<Tournament>(orgnaniserService.setTournamentGround(tournamentId, groundId),HttpStatus.OK);
+	}
+	
+	@PutMapping("/set-tournament-prize-money/{tournament-id}/{prize-money}")
+	public  ResponseEntity<Tournament> setTournamentPrizeMoney(@PathVariable("tournament-id") int tournamentId, @PathVariable("prize-money") double prizeMoney) {
+		return new ResponseEntity<Tournament>(orgnaniserService.setTournamentPrizeMoney(tournamentId, prizeMoney),HttpStatus.OK);
+	}
+	
+	@PutMapping("/add-team-to-tournament/{tournament-id}/{team-id}")
+	public  ResponseEntity<Team> addTeamToTournament(@PathVariable("tournament-id") int tournamentId, @PathVariable("team-id") int teamId) {
+		return new ResponseEntity<Team>(tournamentService.addTeamToTournament(tournamentId, teamId),HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-all-teams/{tournament-id}")
+	public  ResponseEntity<List<Team>> getTeams(@PathVariable("tournament-id") int tournamentId) {
+		return new ResponseEntity<List<Team>>(tournamentService.getTeams(tournamentId),HttpStatus.FOUND);
+	}
+	
+	@DeleteMapping("/delete-team-from-torunament/{tournament-id}/{team-id}")
+	public ResponseEntity<Team> deleteTeamFromTournament(@PathVariable("tournament-id") int tournamentId,  @PathVariable("team-id") int teamId) {
+		return new ResponseEntity<Team>(tournamentService.deleteTeamFromTournament(tournamentId, teamId),HttpStatus.OK);
+	}
+	
+	@GetMapping("/get-all-matches/{tournament-id}")
+	public  ResponseEntity<List<Match>> getAllMatches(@PathVariable("tournament-id") int tournamentId) {
+		return new ResponseEntity<List<Match>>(tournamentService.getAllMatches(tournamentId),HttpStatus.FOUND);
+	}
+	
+	@PutMapping("/start-tournament/{tournament-id}")
+	public  ResponseEntity<Tournament> startTournament(@PathVariable("tournament-id") int tournamentId) {
+		return new ResponseEntity<Tournament>(tournamentService.startTournament(tournamentId),HttpStatus.OK);
+	}
+	
+	@PutMapping("/add-team-to-tournament/{tournament-id}/{owner-id}")
+	public  ResponseEntity<Tournament> endTournament(@PathVariable("tournament-id") int tournamentId, @PathVariable("team-id") int ownerId) {
+		return new ResponseEntity<Tournament>(tournamentService.endTournament(tournamentId, ownerId),HttpStatus.OK);
 	}
 }
 

@@ -1,9 +1,10 @@
 package com.org.cricketleagueapp.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import com.org.cricketleagueapp.entity.Organiser;
-import com.org.cricketleagueapp.entity.Owner;
 import com.org.cricketleagueapp.entity.Tournament;
 
 
@@ -22,8 +23,13 @@ public interface IOrganiserService {
 
 	public Tournament getTournament(int tournamentId);
 
-	public double payPrizeMoney(Owner owner, int tournamentId);
-
 	public double getBudget(int organiserId);
-
+	
+	public Tournament setTournamentDateTime(int tournamentId, LocalDate startDate, LocalTime startTime, LocalTime endTime);
+	
+	public Tournament setTournamentGround(int tournamentId, int groundId);
+	
+	public Tournament setTournamentGround(int tournamentId);
+	
+	public Tournament setTournamentPrizeMoney(int tournamentId, double prizeMoney);
 }
