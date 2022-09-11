@@ -1,16 +1,59 @@
 package com.org.cricketleagueapp.entity;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.org.cricketleagueapp.entity.Match;
+import com.org.cricketleagueapp.entity.Ticket;
+
+@Entity
+@Table(name="audience")
 public class Audience {
-
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	private int audienceId;
+	@Column(name="audienceName")
 	private String audienceName;
+	@Column(name="amount")
 	private double amount;
-
+  
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Match.class)
+    @JoinColumn(name="matchId", referencedColumnName = "matchId", nullable = true)
+	@JsonIgnore
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Match matches;
-
-	private Ticket tickets;
-
+	
+	
+    @OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="audienceId", referencedColumnName = "audienceId")
+	private Set<Ticket> tickets;
+    
 	public Audience() {
+	}
+
+	public Audience(int audienceId, String audienceName, double amount, Match matches, Set<Ticket> tickets) {
+		super();
+		this.audienceId = audienceId;
+		this.audienceName = audienceName;
+		this.amount = amount;
+		this.matches = matches;
+		this.tickets = tickets;
 	}
 
 	public int getAudienceId() {
@@ -45,11 +88,11 @@ public class Audience {
 		this.matches = matches;
 	}
 
-	public Ticket getTickets() {
+	public Set<Ticket> getTickets() {
 		return tickets;
 	}
 
-	public void setTickets(Ticket tickets) {
+	public void setTickets(Set<Ticket> tickets) {
 		this.tickets = tickets;
 	}
 

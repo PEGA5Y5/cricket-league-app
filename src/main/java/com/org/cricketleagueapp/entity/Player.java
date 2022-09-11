@@ -1,15 +1,49 @@
 package com.org.cricketleagueapp.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+
+@Entity
+@Table(name = "player")
 public class Player {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int playerId;
+	
+	@Column(nullable = false)
 	private String playerName;
+	@Column(nullable = false)
 	private double salary;
+	@Column(nullable = false)
 	private Skill skill;
 
+	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Team.class)
+	@JoinColumn(name="teamId", referencedColumnName = "teamId", nullable = true)
+	@JsonIgnore
+	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 	private Team team;
 
 	public Player() {
+	}
+
+	public Player(int playerId, String playerName, double salary, Skill skill, Team team) {
+		this.playerId = playerId;
+		this.playerName = playerName;
+		this.salary = salary;
+		this.skill = skill;
+		this.team = team;
 	}
 
 	public int getPlayerId() {

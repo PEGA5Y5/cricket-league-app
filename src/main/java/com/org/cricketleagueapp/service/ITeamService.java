@@ -19,10 +19,11 @@ public interface ITeamService {
 
 	public Team deleteTeam(int teamId);
 
-	public List<Player> getAllPlayers();
+	public List<Player> getAllPlayers(int teamId);
 
 	public Player getPlayer(int teamId, int playerId);
 
-	public Team getTeam(Player player);
+	//Repeated in Player Service
+	//public Team getTeam(Player player);
 
 }

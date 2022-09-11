@@ -19,11 +19,10 @@ public interface IPlayerService {
 
 	public Player deletePlayer(int playerId);
 
-	public Skill getSkill();
+	public Skill getSkill(int playerId);
 
-	public Team getTeam();
+	public Team getTeam(int playerId);
 
-	public double getSalary();
+	public double getSalary(int playerId);
 
-	public double getSalary(int tournamentId);
 }

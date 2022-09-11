@@ -11,17 +11,4 @@ import com.org.cricketleagueapp.entity.Match;
 
 public interface GroundRepository extends JpaRepository<Ground, Integer> {
 
-	public List<Match> getAllmatchesGround(int groungId);
-
-	public Match getmatche(int groungId, int matchId);
-
-	public Ground insertGround(Ground ground);
-
-	public Ground updateGround(Ground ground);
-
-	public Ground deleteGround(int groungId);
-
-	public List<Match> getAllMatches();
-
-	public Match getMatch(int matchId);
 }

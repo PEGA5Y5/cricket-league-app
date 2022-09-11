@@ -42,10 +42,41 @@ public class MatchServiceImpl implements IMatchService{
 	}
 
 	@Override
-	public Match updateMatch(Match match, long id) {
-		getMatch(id);
-		match.setMatchId(id);
-		return matchRepository.save(match);
+	public Match updateMatch(Match match) {
+		long matchId = match.getMatchId();
+		Match oldMatch = getMatch(matchId);
+		Match saveMatch = new Match();
+		saveMatch.setMatchId(matchId);
+		if(match.getTeam1() != null) {
+			saveMatch.setTeam1(match.getTeam1());
+		}else {
+			saveMatch.setTeam1(oldMatch.getTeam1());
+		}
+		if(match.getTeam2() != null) {
+			saveMatch.setTeam2(match.getTeam2());
+		}else {
+			saveMatch.setTeam2(oldMatch.getTeam2());
+		}
+		if(match.getTournament() != null) {
+			saveMatch.setTournament(match.getTournament());
+		}else {
+			saveMatch.setTournament(oldMatch.getTournament());
+		}
+		if(match.getGround() != null) {
+			saveMatch.setGround(match.getGround());
+		}else {
+			saveMatch.setGround(oldMatch.getGround());
+		}
+		if(match.getSchedule() != null) {
+			saveMatch.setSchedule(match.getSchedule());
+		}else {
+			saveMatch.setSchedule(oldMatch.getSchedule());
+		}if(match.getAvailableSeats() != 0) {
+			saveMatch.setAvailableSeats(match.getAvailableSeats());
+		}else {
+			saveMatch.setAvailableSeats(oldMatch.getAvailableSeats());
+		}
+		return matchRepository.save(saveMatch);
 	}
 
 	@Override
@@ -89,4 +120,12 @@ public class MatchServiceImpl implements IMatchService{
 	public Audience getAudience(int audienceId) {
 		return audienceServiceImpl.getAudience(audienceId);
 	}
+
+	@Override
+	public Match deleteMatchById(long id) {
+		Match matchTemp = matchRepository.findById(id).orElseThrow(()-> new MatchNotFoundException("Match Not Found for id "+id));
+		matchRepository.deleteById(id);
+		return matchTemp;
+	}
+
 }

@@ -1,18 +1,62 @@
 package com.org.cricketleagueapp.entity;
 
-public class Organiser {
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+@Entity
+@Table(name="organiser")
+public class Organiser {
+	
+	@Id
+	@Column(name="organiser_id")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	private int organiserId;
+	
+	@NotNull(message="organiser name cannot be null")
+	@Column(name="organiser_name")
 	private String organiserName;
+	
+	@Email(message="Email should be valid")
+	@Column(name="email")
 	private String email;
+	
+	@Column(name="phone")
 	private long phone;
-	private double payment;
+	
+	@Column(name="budget")
 	private double budget;
 
-	private Tournament tournaments;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "organiser")
+	@JsonIgnore
+	private List<Tournament> tournaments;
+	
+	public Organiser(@NotNull(message = "organiser id cannot be null") int organiserId,
+			@NotNull(message = "organiser name cannot be null") String organiserName,
+			@Email(message = "Email should be valid") String email, long phone, double budget,
+			List<Tournament> tournaments) {
+		super();
+		this.organiserId = organiserId;
+		this.organiserName = organiserName;
+		this.email = email;
+		this.phone = phone;
+		this.budget = budget;
+		this.tournaments = tournaments;
+	}
 
 	public Organiser() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public int getOrganiserId() {
@@ -47,15 +91,8 @@ public class Organiser {
 		this.phone = phone;
 	}
 
-	public double getPayment() {
-		return payment;
-	}
-
-	public void setPayment(double payment) {
-		this.payment = payment;
-	}
-
-	public Tournament getTournaments() {
+	
+	public List<Tournament> getTournaments() {
 		return tournaments;
 	}
 
@@ -67,8 +104,8 @@ public class Organiser {
 		this.budget = budget;
 	}
 
-	public void setTournaments(Tournament tournaments) {
-		this.tournaments = tournaments;
+	public void setTournaments(List<Tournament> list) {
+		this.tournaments = list;
 	}
 
 }

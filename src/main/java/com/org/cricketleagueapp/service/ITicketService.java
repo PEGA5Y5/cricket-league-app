@@ -8,16 +8,14 @@ public interface ITicketService {
 
 	public Ticket getTicket(int ticketId);
 
-	public Ticket insertTicket(Ticket ticket);
+	public Ticket insertTicket(Ticket ticket,int audienceId);
 
 	public Ticket cancelTicket(int ticketId);
 
-	public Match getMatch();
+	public Match getMatch(int ticketId);
 
-	public Audience getSchedule(int ticketId);
-
-	public double getBill();
-
-	public double calculateBill(int noOfSeats);
+	public double calculateBill(int noOfSeats, long matchId);
+	
+	public Ticket updateTicket(Ticket ticket);
 
 }

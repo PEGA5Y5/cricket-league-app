@@ -4,11 +4,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import javax.persistence.Embeddable;
-
-import java.time.LocalDate;
-import java.time.LocalTime;
-
-import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -24,9 +19,9 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Schedule {
 	
 	
-	private LocalDate matchDate = LocalDate.now();
-	private LocalTime startTime = LocalTime.of(8, 30, 00);
-	private LocalTime endTime = LocalTime.of(10, 30, 00);
+	private LocalDate matchDate;
+	private LocalTime startTime;
+	private LocalTime endTime;
 
 
 	public Schedule() {
