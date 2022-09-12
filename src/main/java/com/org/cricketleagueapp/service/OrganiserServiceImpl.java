@@ -2,8 +2,10 @@ package com.org.cricketleagueapp.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -133,7 +135,7 @@ public class OrganiserServiceImpl implements IOrganiserService{
 		new TournamentNotFoundException("Tournament not found with id: " + tournamentId));			//present in the database or not
 		
 		if(groundId == -1) {
-			List<Ground> ground = groundRepository.findAll().stream().filter(temp -> temp.isGroundStatus()).toList();		//if groundId is not passed ground will be assigned
+			List<Ground> ground = groundRepository.findAll().stream().filter(temp -> temp.isGroundStatus()).collect(Collectors.toCollection(ArrayList::new));		//if groundId is not passed ground will be assigned
 			Random rand = new Random();																						//randomly from the list of available grounds
 	        int rand_int = rand.nextInt(ground.size()-1);																	//generating random index
 	        Ground tournamentGround = ground.get(rand_int);
@@ -169,6 +171,6 @@ public class OrganiserServiceImpl implements IOrganiserService{
 	
 	@Override
 	public List<Ground> getAllGrounds() {
-		return groundRepository.findAll().stream().filter(temp -> temp.isGroundStatus()).toList();
+		return groundRepository.findAll().stream().filter(temp -> temp.isGroundStatus()).collect(Collectors.toCollection(ArrayList::new));
 	}
 }
