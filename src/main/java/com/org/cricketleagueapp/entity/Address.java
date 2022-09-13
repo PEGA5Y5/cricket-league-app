@@ -11,6 +11,7 @@ public class Address {
 	private String country;
 
 	public Address() {
+		//Empty Constructor
 	}
 
 	public int getPincode() {

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.org.cricketleagueapp.entity.Audience;
 import com.org.cricketleagueapp.entity.Match;
-import com.org.cricketleagueapp.entity.Team;
 
 
 public interface IAudienceService {

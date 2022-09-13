@@ -16,11 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.org.cricketleagueapp.entity.Audience;
 import com.org.cricketleagueapp.entity.Match;
-import com.org.cricketleagueapp.entity.Team;
 import com.org.cricketleagueapp.entity.Ticket;
 import com.org.cricketleagueapp.service.IAudienceService;
 import com.org.cricketleagueapp.service.IMatchService;
-import com.org.cricketleagueapp.service.ITeamService;
 import com.org.cricketleagueapp.service.ITicketService;
 
 @RestController
@@ -42,8 +40,6 @@ public class AudienceController {
 	
 	@PostMapping("/insert")
 	public ResponseEntity<Audience> insertAudience(@RequestBody Audience audience){
-		/*Match match = matchService.getMatch(matchId);
-		audience.setMatches(match);*/
 		return new ResponseEntity<Audience>(audienceService.insertAudience(audience),HttpStatus.CREATED);
 	}
 	

@@ -23,8 +23,7 @@ public class GroundServiceImpl implements IGroundService{
 	private MatchRepository matchRepository;
 
 	@Override
-	public List<Match> getAllmatchesGround(long groundId) {
-		//long longnum = Long.valueOf(groundId);
+	public List<Match> getAllmatchesGround(int groundId) {
 		List<Match> match=matchRepository.findAll();
 		return match.stream().filter(p -> p.getGround().getGroundId() == groundId).collect(Collectors.toList());
 	}
@@ -38,23 +37,15 @@ public class GroundServiceImpl implements IGroundService{
 	@Override
 	public Ground updateGround(Ground ground) {
 		int groundId = ground.getGroundId();
-		Ground oldGround = getGround(groundId);
-		Ground saveGround = new Ground();
-		saveGround.setGroundId(groundId);
+		Ground saveGround = groundRepository.findById(groundId).orElseThrow(() ->new GroundNotFoundException("Ground Not Found with id:"+groundId));
 		if(ground.getGroundName() != null) {
 			saveGround.setGroundName(ground.getGroundName());
-		}else {
-			saveGround.setGroundName(oldGround.getGroundName());
 		}
 		if(ground.getCapacity() != 0) {
 			saveGround.setCapacity(ground.getCapacity());
-		}else {
-			saveGround.setCapacity(oldGround.getCapacity());
 		}
 		if(ground.getAddress() != null) {
 			saveGround.setAddress(ground.getAddress());
-		}else {
-			saveGround.setAddress(oldGround.getAddress());
 		}
 		return groundRepository.save(saveGround);
 	}
@@ -74,12 +65,11 @@ public class GroundServiceImpl implements IGroundService{
 	@Override
 	public Match getMatch(long matchId) {
 	
-		return matchRepository.findById((long) matchId).orElseThrow(()-> new MatchNotFoundException("Match Not Found with id:"+matchId));
+		return matchRepository.findById(matchId).orElseThrow(()-> new MatchNotFoundException("Match Not Found with id:"+matchId));
 	}
 	
 	@Override
 	public Ground getGround(int groundId) {
 		return groundRepository.findById(groundId).orElseThrow(()-> new GroundNotFoundException("Ground Not Found for id "+groundId));
 	}
-
 }

@@ -1,6 +1,6 @@
 package com.org.cricketleagueapp.service;
 
-import java.util.List;
+
 import java.util.Map;
 import java.util.Set;
 
@@ -22,5 +22,4 @@ public interface IMatchService {
 	public Schedule getSchedule(long matchId);
 	public Set<Audience> getAllAudience(long matchId);
 	public Audience getAudience(int audienceId);
-	//public Match updateSchedule(Match match);
 }

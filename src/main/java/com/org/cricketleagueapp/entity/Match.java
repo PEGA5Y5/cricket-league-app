@@ -1,6 +1,5 @@
 package com.org.cricketleagueapp.entity;
 
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;

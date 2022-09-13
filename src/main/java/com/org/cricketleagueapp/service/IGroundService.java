@@ -6,9 +6,8 @@ import com.org.cricketleagueapp.entity.Ground;
 import com.org.cricketleagueapp.entity.Match;
 
 public interface IGroundService {
-	public List<Match> getAllmatchesGround(long groundId);
+	public List<Match> getAllmatchesGround(int groundId);
 
-	//public Match getmatch(int groungId, int matchId);
 
 	public Ground insertGround(Ground ground);
 

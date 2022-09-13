@@ -12,13 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.org.cricketleagueapp.entity.Match;
-import com.org.cricketleagueapp.entity.Ticket;
+
 
 @Entity
 @Table(name="audience")

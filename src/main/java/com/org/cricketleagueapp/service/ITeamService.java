@@ -23,7 +23,4 @@ public interface ITeamService {
 
 	public Player getPlayer(int teamId, int playerId);
 
-	//Repeated in Player Service
-	//public Team getTeam(Player player);
-
 }

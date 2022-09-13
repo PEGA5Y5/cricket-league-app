@@ -24,7 +24,7 @@ public class CricketLeagueSecurityConfig extends WebSecurityConfigurerAdapter{
     public void configure(AuthenticationManagerBuilder auth) 
       throws Exception {
         auth.inMemoryAuthentication()
-        .withUser("organizer").password(passwordEncoder().encode("pass1234")).roles("ORGANIZER")
+        .withUser("organiser").password(passwordEncoder().encode("org1234")).roles("ORGANIZER")
         .and()
         .withUser("owner").password(passwordEncoder().encode("own1234")).roles("OWNER")
         .and()

@@ -180,7 +180,7 @@ public class TournamentServiceImpl implements ITournamentService{
 //		}
 		
 		groundRepository.save(ground);
-		organiserService.updateOrganiser(organiser);
+		//organiserService.updateOrganiser(organiser);
 		tournamentRepository.deleteById(tournamentId);												 //after fetching the record from the database deleting the record
 		return tournament;
 	}
@@ -314,6 +314,8 @@ public class TournamentServiceImpl implements ITournamentService{
 			matchTemp.setAvailableSeats(ground.getCapacity());
 			matchRepository.save(matchTemp);
 		}
+		
+		tournament.setMatches(match);
 		
 		groundRepository.save(ground);															//saving the match list in database
 		
